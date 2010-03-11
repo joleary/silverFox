@@ -1,0 +1,45 @@
+
+body {
+	padding:	5px;
+	background-color: #fff;
+}
+
+a img {
+    border: none; 
+}
+
+.leftcontent {
+	margin-top: 10px;
+	width:190px;
+	background:	#dfd;	
+	font-size: small;
+	padding: 10px;
+	float:left;
+}
+
+.centercontent {
+	background:	#dfd;
+	margin-top:	10px;
+	margin-left:220px;
+	margin-right:160px;
+	padding:	10px;
+}
+
+
+.rightcontent {
+	width: 130px;
+	margin-top: 10px;
+	padding: 10px;
+	float:right;
+	background:	#dfd;
+	font-size: small;
+	text-align:center;
+}
+
+.banner {
+	padding:5px;
+	background:		#69c;
+	height:			65px;
+	border-bottom:	1px solid #000;
+	color:	#fff;
+}

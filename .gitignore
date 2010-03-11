@@ -1,0 +1,15 @@
+# ignore the following from source control
+
+# files in lib
+*.[oa]
+
+# temp files from editors
+~*
+*.geany
+
+# build and lib dirs
+build/
+lib/
+
+# packaged for RPM build process
+*.tar.gz

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=desktopLauncher
+GenericName=desktopLauncher
+Comment=Desktop launcher that presents applications in an easy manner.
+Exec=/usr/share/desktopLauncher-0.1/desktopLauncher
+Icon=desktopLauncher
+Terminal=false
+Type=Application
+Categories=Utility;
+NoDisplay=true

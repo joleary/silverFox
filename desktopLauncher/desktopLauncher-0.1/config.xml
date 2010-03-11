@@ -1,0 +1,7 @@
+<desktopLauncher bg="#f3f" fg="#f9f">
+	<launcher name="Office" icon="resources/openoffice2.png" action="openoffice.org"/>
+	<launcher name="Facebook" icon="resources/facebook.png" action="facebook"/>
+	<launcher name="Gmail" icon="resources/gmail.png" action="gmail"/>
+	<launcher name="Calculator" icon="resources/gnome-calculator.png" action="gcalctool"/>
+	<launcher name="Internet" icon="resources/firefox.png" action="firefox-homeLauncher"/>
+</desktopLauncher>

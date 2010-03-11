@@ -1,0 +1,5 @@
+#
+#!/bin/bash
+#
+
+/usr/bin/firefox file:///usr/share/applications/desktopLauncher-0.1/resources/homepage.html

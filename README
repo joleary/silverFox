@@ -1,0 +1,17 @@
+silverFox project components
+
+1) Desktop Launcher Tool
+
+	To build, enter the directory containing the Makefile and execute:
+
+	make clean && make
+
+	To install type make install DESTDIR=/
+
+	There is a spec file to create and RPM. Create a tar.gz of the desktopLaucher-x.x directory with the same name (desktopLauncher-x.x.tar.gz) and place it in the SOURCES dir of your rpmbuild directories. Then copy the spec file to the SPECS dir and issue the command rpmbuild -ba SPECS/desktopLauncher-x.x.spec.
+
+2) Phone Book Tool
+
+3) LiveCD kickstart files
+
+
