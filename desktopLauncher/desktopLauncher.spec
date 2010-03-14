@@ -41,13 +41,14 @@ rm -rf %{buildroot}
 /usr/bin/facebook
 /usr/bin/firefox-homeLauncher
 /usr/share/%{name}-%{version}/%{name}
+/usr/share/%{name}-%{version}/config.xml
 /usr/share/%{name}-%{version}/resources/facebook.png
 /usr/share/%{name}-%{version}/resources/firefox.png
 /usr/share/%{name}-%{version}/resources/gmail.png
 /usr/share/%{name}-%{version}/resources/gnome-calculator.png
 /usr/share/%{name}-%{version}/resources/openoffice2.png
 /usr/share/%{name}-%{version}/resources/skype.png
-/usr/share/%{name}-%{version}/resources/images/facebook.png
+/usr/share/%{name}-%{version}/resources/images/icon_facebook.png
 /usr/share/%{name}-%{version}/resources/images/gmail.png
 /usr/share/%{name}-%{version}/resources/styles/base_style.css
 /usr/share/%{name}-%{version}/resources/homepage.html

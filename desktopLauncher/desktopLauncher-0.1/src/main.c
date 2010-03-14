@@ -1,25 +1,31 @@
 #include <gtk/gtk.h>
+#include <gdk/gdk.h>
 #include <gdk/gdkx.h>
 #include <X11/Xatom.h>
 
 #include "launcher.h"
 #include "circleBox.h"
 #include "configParser.h"
+#include "optionWindow.h"
 
 GtkWidget *rootWindow;
+
+GtkWidget *oWindow;
+GtkWidget *oButton;
 
 GdkScreen *gdkScreen;
 
 GtkWidget *lContainer;
 
-GtkWidget *box;
+GtkWidget *box, *box2;
 
 GList *launchers = NULL;
-gchar *fgColor;
-gchar *bgColor;
 
 gchar *dataLocation;
 
+GdkColor fg;
+GdkColor bg;
+	
 gboolean launch_application(GAppInfo *appinfo) {
 
 	GdkAppLaunchContext *context;
@@ -33,10 +39,6 @@ gboolean launch_application(GAppInfo *appinfo) {
 	gdk_app_launch_context_set_timestamp(context,gtk_get_current_event_time());
 
 	retval = g_app_info_launch_uris(appinfo, NULL, (GAppLaunchContext *) context, &error);
-
-	if(!retval) {
-		fprintf(stdout,"Error Launching application: %s\n",error->message);
-	}
 
 	g_object_unref(context);
 	
@@ -67,9 +69,7 @@ void set_desktop_hint(GdkWindow *window) {
 	
 }
 
-
-/* force the root window uid
- * 
+/* force the root window uid 
  */
 void set_as_root(GtkWidget *widget, GdkWindow *window) {
 
@@ -96,7 +96,7 @@ static void setup(GtkWidget *widget) {
 	
 }
 
-void populateData() {
+void parse_config() {
 	GError *error=NULL;
 	
 	GFile *data = g_file_new_for_path(dataLocation);
@@ -126,9 +126,19 @@ void populateData() {
 
 	launchers = config_parser_get_launchers();
 
+	gchar *fgColor;
+	gchar *bgColor;
+
 	fgColor = config_parser_get_fg();
 	
 	bgColor = config_parser_get_bg();
+	
+	if(!gdk_color_parse(fgColor, &fg)) {
+		gdk_color_parse("#fff", &fg);
+	}
+	if(!gdk_color_parse(bgColor, &bg)) {
+		gdk_color_parse("#000",&bg);
+	}
 
 	g_markup_parse_context_free(context);
 
@@ -138,24 +148,11 @@ void populateData() {
 }
 
 void apply_config() {
-	dataLocation = g_strdup("config.xml");
-	
-	populateData();
-	
-	GdkColor fg;
-	GdkColor bg;
-	
-	if(!gdk_color_parse(fgColor, &fg)) {
-		gdk_color_parse("#fff", &fg);
-	}
-	if(!gdk_color_parse(bgColor, &bg)) {
-		gdk_color_parse("#000",&bg);
-	}
-	GtkWidget *newLauncher;
+
 	while(launchers) {
 		launcherEntry *l = launchers->data;
 
-		newLauncher = launcher_new(l->name, l->icon, l->action);
+		GtkWidget *newLauncher = launcher_new(l->name, l->icon, l->action);
 		
 		g_signal_connect(G_OBJECT(newLauncher),"clicked",G_CALLBACK(clicked),NULL);
 		
@@ -169,41 +166,73 @@ void apply_config() {
 	
 }
 
+void toggleOptions(GtkWidget *widget, GdkEvent *event) {
+	if(!gtk_widget_get_visible(oWindow)) {
+		gtk_widget_show_all(oWindow);
+	} else {
+		gtk_widget_hide_all(oWindow);
+	}
+	
+	GdkColor bgC;
+		
+		if(gdk_color_parse("#33f", &bgC)) {
+				gtk_widget_modify_bg(oWindow,GTK_STATE_NORMAL,&bgC);
+		}
+}
+
 
 int main(int argc, char *argv[]) {
-
+	
+	gtk_init(&argc, &argv);
+	
+	dataLocation = g_strdup("config.xml");
+	
+	parse_config();
+	
 	GdkWindow *gdkRootWindow;
 
-	gtk_init(&argc, &argv);
+	gdkRootWindow = gdk_get_default_root_window();
 
-		gdkRootWindow = gdk_get_default_root_window();
+	box = gtk_vbox_new(FALSE,0);
 
-		box = gtk_hbox_new(TRUE,0);
+	box2 = gtk_hbox_new(FALSE,0);
+	
+	lContainer = circle_box_new_with_defaults();
+			
+	rootWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	
+	gtk_window_set_type_hint(GTK_WINDOW(rootWindow), GDK_WINDOW_TYPE_HINT_DESKTOP);
 
-		lContainer = circle_box_new_with_defaults();
-				
-		rootWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	oWindow = option_window_new();
+	
+	oButton = gtk_button_new_with_mnemonic("&Add");
 
-		gdkScreen = gtk_window_get_screen(GTK_WINDOW(rootWindow));
+	gdkScreen = gtk_window_get_screen(GTK_WINDOW(rootWindow));
 
-		//gtk_window_resize(GTK_WINDOW(rootWindow),gdk_screen_get_width(gdkScreen),gdk_screen_get_height(gdkScreen));
-		//gtk_window_fullscreen(GTK_WINDOW(rootWindow));
-		gtk_window_resize(GTK_WINDOW(rootWindow),400,400);
-		
-		gtk_window_set_position(GTK_WINDOW(rootWindow),GTK_WIN_POS_CENTER_ALWAYS);
+	//gtk_window_resize(GTK_WINDOW(rootWindow),gdk_screen_get_width(gdkScreen),gdk_screen_get_height(gdkScreen));
+	gtk_window_fullscreen(GTK_WINDOW(rootWindow));
+	gtk_window_resize(GTK_WINDOW(rootWindow),400,400);
+	
+	gtk_window_set_position(GTK_WINDOW(rootWindow),GTK_WIN_POS_CENTER_ALWAYS);
 
 
-		gtk_box_pack_start_defaults(GTK_BOX(box), lContainer);
+	gtk_box_pack_start_defaults(GTK_BOX(box), lContainer);
 
-		gtk_container_add(GTK_CONTAINER(rootWindow), box);
-		
-		g_signal_connect(rootWindow, "destroy", G_CALLBACK(quitting), NULL);
+	//gtk_box_pack_end(GTK_BOX(box), box2, FALSE, FALSE, 0);
 
-		//setup(rootWindow);
+	//gtk_box_pack_end(GTK_BOX(box2), oButton, FALSE, FALSE, 0);
 
-		apply_config();
+	gtk_container_add(GTK_CONTAINER(rootWindow), box);
+	
+	g_signal_connect(rootWindow, "destroy", G_CALLBACK(quitting), NULL);
 
-		gtk_widget_show_all(rootWindow);
+	g_signal_connect(oButton, "clicked", G_CALLBACK(toggleOptions), NULL);
+
+	//setup(rootWindow);
+
+	apply_config();
+
+	gtk_widget_show_all(rootWindow);
 
 	gtk_main();
 

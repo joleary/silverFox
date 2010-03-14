@@ -264,8 +264,6 @@ void circle_box_add(GtkContainer *container, GtkWidget *widget) {
 	gtk_widget_set_parent(widget, GTK_WIDGET(box));
 	
 	gtk_widget_thaw_child_notify(widget);
-	fprintf(stdout,"end of add\n");
-	fflush(stdout);
 }
 
 void circle_box_remove(GtkContainer *container, GtkWidget *widget) {

@@ -13,9 +13,9 @@ LOCAL_LIB_DIR = ./src/lib
 
 LOCAL_BUILD_DIR = ./build
 
-CFLAGS += $(shell pkg-config --cflags gtk+-2.0)
+CFLAGS += $(shell pkg-config --cflags gtk+-2.0 librsvg-2.0)
 
-LIBS += $(shell pkg-config --libs gtk+-2.0)
+LIBS += $(shell pkg-config --libs gtk+-2.0 librsvg-2.0)
 
 BIN = usr/bin
 
@@ -32,17 +32,13 @@ pre-build:
 	@mkdir -p $(LOCAL_BUILD_DIR)
 	@mkdir -p $(LOCAL_LIB_DIR)
 
-main: launcher launcherContainer circleBox configParser
+main: launcher circleBox configParser optionWindow
 	@echo -e "\ncompiling main\n"
 	gcc $(CFLAGS) $(LIBS) -g -c $(LOCAL_SRC_DIR)/main.c -o $(LOCAL_LIB_DIR)/main.o
 
 launcher:
 	@echo -e "\ncompiling launcher\n"
 	gcc $(CFLAGS) $(LIBS) -g -c $(LOCAL_SRC_DIR)/launcher.c -o $(LOCAL_LIB_DIR)/launcher.o
-
-launcherContainer:
-	@echo -e "\ncompiling launcher container\n"
-	gcc $(CFLAGS) $(LIBS) -g -c $(LOCAL_SRC_DIR)/launcherContainer.c -o $(LOCAL_LIB_DIR)/launcherContainer.o
 
 circleBox:
 	@echo -e "\ncompiling circleBox\n"
@@ -51,6 +47,10 @@ circleBox:
 configParser:
 	@echo -e "\ncompiling configParser\n"
 	gcc $(CFLAGS) $(LIBS) -g -c $(LOCAL_SRC_DIR)/configParser.c -o $(LOCAL_LIB_DIR)/configParser.o
+
+optionWindow:
+	@echo -e "\ncompiling optionWindow\n"
+	gcc $(CFLAGS) $(LIBS) -g -c $(LOCAL_SRC_DIR)/optionWindow.c -o $(LOCAL_LIB_DIR)/optionWindow.o
 
 .PHONY: clean
 clean:
@@ -64,7 +64,9 @@ install:
 	install -d $(DESTDIR)/etc/xdg/autostart
 	install -m 0755 ./scripts/gmail $(DESTDIR)/$(BIN)
 	install -m 0755 ./scripts/facebook $(DESTDIR)/$(BIN)
+	install -m 0755 ./scripts/firefox-homeLauncher $(DESTDIR)/$(BIN)
 	install -m 0644 ./$(PROGRAM).desktop $(DESTDIR)/etc/xdg/autostart
 	install -m 0644 ./$(PROGRAM).desktop $(DESTDIR)/$(DATA)/applications
 	install -m 0755 ./build/$(PROGRAM) $(DESTDIR)/$(DATA)/$(PROGRAM)-$(VERSION)/
+	install -m 0644 ./config.xml $(DESTDIR)/$(DATA)/$(PROGRAM)-$(VERSION)/
 	cp -r ./resources $(DESTDIR)/$(DATA)/$(PROGRAM)-$(VERSION)/

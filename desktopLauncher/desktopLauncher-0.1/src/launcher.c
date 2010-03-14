@@ -4,7 +4,8 @@
 #include <unistd.h>
 
 #include "launcher.h"
-
+#include <librsvg/rsvg.h>
+#include <librsvg/rsvg-cairo.h>
 enum {
 	PROP_0,
 	PROP_IMAGE_PATH,
@@ -32,6 +33,7 @@ void launcher_set_action(Launcher *, const gchar *);
 void launcher_clicked(GtkButton *);
 
 cairo_surface_t * scale_icon(cairo_surface_t *, gdouble, gdouble);
+cairo_surface_t * scale_svg(const gchar *, gdouble, gdouble);
 
 void launcher_class_init(LauncherClass *class) {
 	GObjectClass *obj_class = G_OBJECT_CLASS(class);
@@ -90,11 +92,11 @@ gboolean launcher_expose_event(GtkWidget *widget, GdkEventExpose *event) {
 
 	cairo_select_font_face(cr,"Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
 	
-	cairo_set_font_size(cr,widget->allocation.height*0.3);
+	cairo_set_font_size(cr,widget->allocation.height*0.2);
 
 	cairo_text_extents(cr, l->label_text, &extents);
 
-	cairo_set_source_rgb (cr, 0, 0, 0);
+	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
 
 	cairo_move_to(cr,(widget->allocation.x+widget->allocation.width*0.5)-(extents.width/2),widget->allocation.y+widget->allocation.height*0.9);
 	
@@ -177,12 +179,32 @@ void launcher_get_property(GObject *object, guint prop_id, GValue *value, GParam
 void launcher_set_image_path(Launcher *launcher, const gchar *image_path) {
 	
 	g_return_if_fail(LAUNCHER_IS_LAUNCHER(launcher));
-	
 	launcherPrivate *priv = LAUNCHER_GET_PRIVATE(launcher);
+	GError *error = NULL;
+	cairo_surface_t *surface=NULL;
+	gchar *mime=NULL;
 	
-	cairo_surface_t *surface = cairo_image_surface_create_from_png(image_path);
-	if(cairo_surface_status(surface)==CAIRO_STATUS_SUCCESS)	{
-		priv->image = surface;
+	GFile *ico = g_file_new_for_path(image_path);
+	GFileInfo *info = g_file_query_info(ico, "standard::*", G_FILE_QUERY_INFO_NONE, NULL, &error);
+	
+	if(error==NULL) {
+		mime = g_file_info_get_attribute_as_string(info,"standard::content-type");
+	}
+	
+	if(mime!=NULL) {
+		if(g_strcmp0(mime,"image/png")==0) {
+			surface = cairo_image_surface_create_from_png(image_path);
+		}
+		
+		if(g_strcmp0(mime,"image/svg+xml")==0) {
+			surface = scale_svg(image_path, 256.0, 256.0);
+		}
+		
+		if(surface!=NULL && cairo_surface_status(surface)==CAIRO_STATUS_SUCCESS)	{
+			priv->image = surface;
+		} else {
+			priv->image = NULL;
+		}
 	}
 	
 	launcher->image_path = g_strdup(image_path);
@@ -220,6 +242,41 @@ cairo_surface_t * scale_icon(cairo_surface_t *oldSurface, gdouble newW, gdouble 
     cairo_destroy (ct);
 	
 	return newSurface;
+}
+
+cairo_surface_t * scale_svg(const gchar *svg_path, gdouble width, gdouble height) {
+	rsvg_init();
+	GError *rsvg_error=NULL;
+	cairo_surface_t *target_surface;
+	cairo_t *cr;
+	gdouble scalew, scaleh, stride;
+	int dw, dh;
+	RsvgHandle *rsvg_handle;
+	RsvgDimensionData dimension_data;
+	
+	rsvg_handle = rsvg_handle_new_from_file(svg_path, &rsvg_error);
+	if(rsvg_error==NULL) {
+		rsvg_handle_get_dimensions(rsvg_handle, &dimension_data);
+		dw = dimension_data.width;
+		dh = dimension_data.height;
+		scalew = width / dw;
+		scaleh = height / dh;
+		stride = cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32, width);
+		void *image = g_malloc0(stride * height);
+		target_surface = cairo_image_surface_create_for_data(image,
+														CAIRO_FORMAT_ARGB32, 
+														width, height, stride);
+		cairo_t *cr = cairo_create(target_surface);
+		cairo_scale(cr,scalew,scaleh);
+						
+		if(rsvg_handle_render_cairo(rsvg_handle, cr)) {
+			rsvg_term();
+			return target_surface;
+		}
+			
+	}
+	rsvg_term();
+	return NULL;
 }
 
 GtkWidget *launcher_new(const gchar *text, const gchar *image, const gchar *action) {
