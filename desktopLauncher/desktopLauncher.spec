@@ -47,7 +47,6 @@ rm -rf %{buildroot}
 /usr/share/%{name}-%{version}/resources/gmail.png
 /usr/share/%{name}-%{version}/resources/gnome-calculator.png
 /usr/share/%{name}-%{version}/resources/openoffice2.png
-/usr/share/%{name}-%{version}/resources/skype.png
 /usr/share/%{name}-%{version}/resources/images/icon_facebook.png
 /usr/share/%{name}-%{version}/resources/images/gmail.png
 /usr/share/%{name}-%{version}/resources/styles/base_style.css
