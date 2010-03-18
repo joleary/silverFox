@@ -30,5 +30,6 @@ struct _OptionWindowClass {
 
 GtkWidget * option_window_new();
 
+G_END_DECLS
 
 #endif
