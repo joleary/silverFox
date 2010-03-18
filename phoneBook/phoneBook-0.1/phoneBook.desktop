@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=phoneBook
+GenericName=phoneBook
+Comment=A simple phone book application
+Exec=/usr/bin/phoneBook
+Icon=
+Terminal=false
+Type=Application
+Categories=Accessories
