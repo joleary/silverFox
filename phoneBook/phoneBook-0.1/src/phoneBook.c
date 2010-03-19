@@ -1,6 +1,7 @@
 #include <gtk/gtk.h>
 #include <gio/gio.h>
 #include "phoneBookParser.h"
+#include "phoneBookEntry.h"
 
 GtkWidget *phoneBookWindow;
 GtkWidget *phoneBookDialog;
@@ -89,8 +90,11 @@ setupEnvironment() {
 }
 
 GtkWidget *add_contact_to_ui(phoneBookEntry *pbe) {
-	GtkWidget *text = gtk_label_new(pbe->name);
-	return text;
+	GtkWidget *entry = phone_book_entry_new();
+	phone_book_entry_set_name(PHONE_BOOK_ENTRY(entry), pbe->name);
+	phone_book_entry_set_number(PHONE_BOOK_ENTRY(entry), pbe->number);
+	//GtkWidget *text = gtk_label_new(pbe->name);
+	return entry;
 }
 
 int main(int argc, char *argv[]) {

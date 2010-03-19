@@ -32,13 +32,17 @@ pre-build:
 	@mkdir -p $(LOCAL_LIB_DIR)
 	@mkdir -p $(LOCAL_BUILD_DIR)
 
-main: parser
+main: parser phoneBookEntry
 	@echo -e "\ncompiling main\n"
 	gcc $(CFLAGS) $(LIBS) -g -c $(LOCAL_SRC_DIR)/phoneBook.c -o $(LOCAL_LIB_DIR)/main.o
 
 parser:
 	@echo -e "\ncompiling parser\n"
 	gcc $(CFLAGS) $(LIBS) -g -c $(LOCAL_SRC_DIR)/phoneBookParser.c -o $(LOCAL_LIB_DIR)/phoneBookParser.o
+
+phoneBookEntry:
+	@echo -e "\ncompiling parser\n"
+	gcc $(CFLAGS) $(LIBS) -g -c $(LOCAL_SRC_DIR)/phoneBookEntry.c -o $(LOCAL_LIB_DIR)/phoneBookEntry.o
 
 .PHONY: clean
 clean:
