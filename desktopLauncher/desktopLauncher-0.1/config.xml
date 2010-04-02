@@ -1,4 +1,4 @@
-<desktopLauncher bg="#f39" fg="#09f">
+<desktopLauncher bg="#339" fg="#ccc">
 	<launcher name="Office" icon="resources/openoffice2.png" action="openoffice.org"/>
 	<launcher name="Facebook" icon="resources/facebook.png" action="facebook"/>
 	<launcher name="Gmail" icon="resources/gmail.png" action="gmail"/>

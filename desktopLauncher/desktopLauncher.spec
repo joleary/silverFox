@@ -9,7 +9,7 @@ URL:            None
 Source0:        %{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  gtk2-devel, desktop-file-utils
+BuildRequires:  gtk2-devel, desktop-file-utils, librsvg2
 Requires:       gtk2
 
 
