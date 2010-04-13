@@ -101,9 +101,9 @@ void parse_config() {
 	
 	GFile *data = g_file_new_for_path(dataLocation);
 	
-	GFileIOStream *stream = g_file_open_readwrite(data, NULL, &error);
+	GFileInputStream *stream = g_file_read(data, NULL, &error);
 	
-	GInputStream *is = g_io_stream_get_input_stream((GIOStream *)stream);
+	//GInputStream *is = g_io_stream_get_input_stream((GIOStream *)stream);
 
 	GMarkupParseContext *context = g_markup_parse_context_new(&configParser, 
 													G_MARKUP_TREAT_CDATA_AS_TEXT, 
@@ -112,14 +112,14 @@ void parse_config() {
 	
 	gchar *buffer = g_malloc0(256);
 	
-	int read = g_input_stream_read(is, buffer,256,NULL,&error);
+	int read = g_input_stream_read(stream, buffer,256,NULL,&error);
 	
 	while(read > 0) {
 		GError *parse_error = NULL;
 		g_markup_parse_context_parse(context, buffer, read, &parse_error);
 		buffer = g_malloc0(256);
 		error = NULL;
-		read = g_input_stream_read(is, buffer,256,NULL,&error);
+		read = g_input_stream_read(stream, buffer,256,NULL,&error);
 	}
 	
 	g_markup_parse_context_end_parse(context,NULL);
@@ -144,7 +144,7 @@ void parse_config() {
 
 	error=NULL;
 	
-	g_io_stream_close((GIOStream *)stream,NULL,&error);
+	g_input_stream_close(stream,NULL,&error);
 }
 
 void apply_config() {
