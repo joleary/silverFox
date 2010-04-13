@@ -112,14 +112,14 @@ void parse_config() {
 	
 	gchar *buffer = g_malloc0(256);
 	
-	int read = g_input_stream_read(stream, buffer,256,NULL,&error);
+	int read = g_input_stream_read((GInputStream *)stream, buffer,256,NULL,&error);
 	
 	while(read > 0) {
 		GError *parse_error = NULL;
 		g_markup_parse_context_parse(context, buffer, read, &parse_error);
 		buffer = g_malloc0(256);
 		error = NULL;
-		read = g_input_stream_read(stream, buffer,256,NULL,&error);
+		read = g_input_stream_read((GInputStream *)stream, buffer,256,NULL,&error);
 	}
 	
 	g_markup_parse_context_end_parse(context,NULL);
@@ -144,7 +144,7 @@ void parse_config() {
 
 	error=NULL;
 	
-	g_input_stream_close(stream,NULL,&error);
+	g_input_stream_close((GInputStream *)stream,NULL,&error);
 }
 
 void apply_config() {
