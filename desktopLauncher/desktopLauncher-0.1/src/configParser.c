@@ -39,7 +39,15 @@ void config_parser_start_element(GMarkupParseContext *context, const gchar *elem
 		while(*names) {
 			if(g_strcmp0("name",*names)==0) { lEntry->name = g_strdup(*values); }
 			if(g_strcmp0("action",*names)==0) { lEntry->action = g_strdup(*values); }
-			if(g_strcmp0("icon",*names)==0) { lEntry->icon = g_strdup(*values); }
+			if(g_strcmp0("icon",*names)==0) { 
+				GString *iconPath = g_string_new(*values);
+				if(iconPath->str[0]!='/') {
+					g_string_prepend(iconPath,((GString *)user_data)->str);
+				}
+				lEntry->icon = iconPath->str;
+				fprintf(stdout,"%s\n", lEntry->icon);
+				fflush(stdout);
+			}
 			names++;
 			values++;
 		}
