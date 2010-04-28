@@ -21,7 +21,8 @@ GtkWidget *box, *box2;
 
 GList *launchers = NULL;
 
-gchar *dataLocation;
+GString *configLocation;
+GString *execDir;
 
 GdkColor fg;
 GdkColor bg;
@@ -99,7 +100,7 @@ static void setup(GtkWidget *widget) {
 void parse_config() {
 	GError *error=NULL;
 	
-	GFile *data = g_file_new_for_path(dataLocation);
+	GFile *data = g_file_new_for_path(configLocation->str);
 	
 	GFileInputStream *stream = g_file_read(data, NULL, &error);
 	
@@ -107,7 +108,7 @@ void parse_config() {
 
 	GMarkupParseContext *context = g_markup_parse_context_new(&configParser, 
 													G_MARKUP_TREAT_CDATA_AS_TEXT, 
-													NULL, 
+													execDir, 
 													NULL);
 	
 	gchar *buffer = g_malloc0(256);
@@ -185,7 +186,21 @@ int main(int argc, char *argv[]) {
 	
 	gtk_init(&argc, &argv);
 	
-	dataLocation = g_strdup("config.xml");
+	execDir = g_string_new(argv[0]);
+		
+	char cTmp;
+	int pos=execDir->len;
+	cTmp = execDir->str[pos];
+	while(cTmp!='/' && pos > 0) {
+		pos--;
+		cTmp = execDir->str[pos];
+	}
+	
+	g_string_truncate(execDir,pos+1);
+	
+	configLocation = g_string_new(execDir->str);
+	
+	g_string_append(configLocation, "config.xml");
 	
 	parse_config();
 	
