@@ -138,6 +138,12 @@ chmod a+x /home/liveuser/Desktop/liveinst.desktop
 gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults -s -t bool /apps/nautilus/desktop/trash_icon_visible false >/dev/null
 gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults -s -t bool /apps/nautilus/desktop/home_icon_visible false >/dev/null
 
+# expand top and bottom panels for session and by default
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/toplevels/top_panel/size 64 --type int >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/toplevels/bottom_panel/size 64 --type int >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/toplevels/top_panel/size 64 --type int >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/toplevels/bottom_panel/size 64 --type int >/dev/null
+
 # Turn off PackageKit-command-not-found while uninstalled
 sed -i -e 's/^SoftwareSourceSearch=true/SoftwareSourceSearch=false/' /etc/PackageKit/CommandNotFound.conf
 
