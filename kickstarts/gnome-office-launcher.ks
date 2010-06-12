@@ -144,6 +144,10 @@ gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults
 gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/toplevels/top_panel/size 64 --type int >/dev/null
 gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/toplevels/bottom_panel/size 64 --type int >/dev/null
 
+# ctrl key to locate the mouse by default
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /desktop/gnome/peripherals/mouse/locate_pointer --type bool true >/dev/null
+
+
 # Turn off PackageKit-command-not-found while uninstalled
 sed -i -e 's/^SoftwareSourceSearch=true/SoftwareSourceSearch=false/' /etc/PackageKit/CommandNotFound.conf
 
