@@ -147,6 +147,14 @@ gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults
 # ctrl key to locate the mouse by default
 gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /desktop/gnome/peripherals/mouse/locate_pointer --type bool true >/dev/null
 
+# show desktop on top panel by dafult
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/general/applet_id_list show_desktop_button --type list --list-type string [mixer,clock,notification_area,show_desktop_button,window_list] >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/applets/show_desktop_button/object_type bonobo-applet --type string >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/applets/show_desktop_button/toplevel_id bottom_panel --type string >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/applets/show_desktop_button/position 0 --type int >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/applets/show_desktop_button/panel_right_stick false --type bool >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/applets/show_desktop_button/locked true --type bool >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/applets/show_desktop_button/bonobo_iid OAFIID:GNOME_ShowDesktopApplet --type string >/dev/null
 
 # Turn off PackageKit-command-not-found while uninstalled
 sed -i -e 's/^SoftwareSourceSearch=true/SoftwareSourceSearch=false/' /etc/PackageKit/CommandNotFound.conf

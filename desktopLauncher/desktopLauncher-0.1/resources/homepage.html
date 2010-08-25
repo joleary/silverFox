@@ -7,82 +7,79 @@
 
 	<body>
 
-		<div class="banner">
-			<h2><center>Launch Page</center></h2>
-		</div>
-
 		<div class="leftcontent">
-			<div>
+			<strong>Usefull Links:</strong>
+			<div class="ulink">
 				<h3>Google</h3>
 				An internet search engine.
 				<br>
 				<strong>Website:</strong> <a target=_blank href="http://www.google.ie/">http://www.google.ie/</a>
 			</div>
 
-			<div>
+			<div class="ulink">
 				<h3>Golden Pages</h3>
 				Search for local business' contact information.
 				<br>
 				<strong>Website:</strong> <a target=_blank href="http://www.goldenpages.ie/">http://www.goldenpages.ie/</a>
 			</div>
 
-			<div>
+			<div class="ulink">
 				<h3>Night Courses</h3>
 				Find evening and adult education courses.
 				<br>
 				<strong>Website:</strong> <a target=_blank href="http://www.nightcourses.com/">http://www.nightcourses.com/</a>
 			</div>
 
-			<div>
+			<div class="ulink">
 				<h3>Dublin Bus</h3>
 				Dublin Bus timetables and route information.
 				<br>
 				<strong>Website:</strong> <a target=_blank href="http://www.dublinbus.ie/">http://www.dublinbus.ie/</a>
 			</div>
 
-			<div>
+			<div class="ulink">
 				<h3>Irish Rail</h3>
 				Irish Rail timetables and route information.
 				<br>
 				<strong>Website:</strong> <a target=_blank href="http://www.irishrail.ie/home/">http://www.irishrail.ie/</a>
 			</div>
 
-			<div>
+			<div class="ulink">
 				<h3>Bus Éireann</h3>
 				Bus Éireann timetables and route informtaion.
 				<br>
 				<strong>Website:</strong> <a target=_blank href="http://www.buseireann.ie/">http://www.buseireann.ie/</a>
 			</div>
 
-			<div>
+			<div class="ulink">
 				<h3>Aer Lingus</h3>
 				Offers Irish and international flights.
 				<br>
 				<strong>Website:</strong> <a target=_blank href="http://www.aerlingus.com/">http://www.aerlingus.com/</a>
 			</div>
 
-			<div>
+			<div class="ulink">
 				<h3>Ryan Air</h3>
 				Offers Irish and international flights.
 				<br>
 				<strong>Website:</strong> <a target=_blank href="http://www.ryanair.com/ie">http://www.ryanair.com/</a>
 			</div>
 
-			<div>
+			<div class="ulink">
 				<h3>The Irish Times</h3>
 				The Irish Times newspaper.
 				<br>
 				<strong>Website:</strong> <a target=_blank href="http://www.irishtimes.com/">http://www.irishtimes.com/</a>
 			</div>
 
-			<div>
+			<div class="ulink">
 				<h3>Irish Independent</h3>
 				The Irish Independent newspaper.
 				<br>
 				<strong>Website:</strong> <a target=_blank href="http://www.independent.ie/">http://www.independent.ie/</a>
 			</div>
 			
-			<div>
+			<div class="ulink">
 				<h3>Boards</h3>
 				A public forum where people discuss a wide range of topics.
 				<br>
@@ -90,27 +87,17 @@
 			</div>
 		</div> <!-- end left content -->
 
-		<div class="rightcontent">
-			
-			<div>
-				<a target=_blank href="http://gmail.com/">
-					<img src="images/gmail.png" height=75 width=75 alt="Gamil"/>
-				</a>
-				<br>
-				<a target=_blank href="http://gmail.com/">Gmail</a>
-			</div>
-			<br />
-			<div>
-				<a target=_blank href="http://www.facebook.com/">
-					<img src="images/icon_facebook.png" height=75 width=75 alt="Facebook"/>
-				</a>
-				<br>
-				<a target=_blank href="http://www.facebook.com/">Facebook</a>
-			</div>
-			
-		</div><!-- end rightcontent -->
-
 		<div class="centercontent">
+			<div class="search">
+				<label for="search"><strong>Type something to search below and click the "Search" button.</strong></label>
+				<br /><br />
+				<form action="http://www.google.ie/search" method="GET">
+					<input id="search" type="hidden" name="hl" value="en"/>
+					<input class="text" type="text" name="q"/>
+					<input class="submit" type="submit" value="Search"/>
+				</form>
+			</div>
+			<br /><br />
 			<div>
 				<h3>Age Action</h3>
 				Age Action is a charity which promotes positive ageing and better policies and services for older people. Working with, and on behalf of, older people we aim to make Ireland the best place in the world in which to grow older.

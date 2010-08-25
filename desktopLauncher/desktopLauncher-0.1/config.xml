@@ -1,8 +1,8 @@
 <desktopLauncher bg="#339" fg="#ccc">
 	<launcher name="Office" icon="resources/openoffice2.png" action="openoffice.org"/>
 	<launcher name="Facebook" icon="resources/facebook.png" action="facebook"/>
-	<launcher name="Gmail" icon="resources/gmail.png" action="gmail"/>
-	<launcher name="Solitaire" icon="/usr/share/icons/hicolor/scalable/apps/gnome-aisleriot.svg" action="sol"/>
+	<launcher name="Email" icon="resources/gmail.png" action="gmail"/>
+	<launcher name="Patience" icon="/usr/share/icons/hicolor/scalable/apps/gnome-aisleriot.svg" action="sol"/>
 	<launcher name="Sudoku" icon="/usr/share/icons/hicolor/scalable/apps/gnome-sudoku.svg" action="gnome-sudoku"/>
 	<launcher name="Internet" icon="resources/firefox.png" action="firefox-homeLauncher"/>
 </desktopLauncher>

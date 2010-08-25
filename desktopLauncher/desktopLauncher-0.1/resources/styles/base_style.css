@@ -11,17 +11,20 @@ a img {
 .leftcontent {
 	margin-top: 10px;
 	width:190px;
-	background:	#dfd;	
-	font-size: small;
+	background:	#dfd;
 	padding: 10px;
 	float:left;
+}
+
+.ulink {
+	font-size:small;
 }
 
 .centercontent {
 	background:	#dfd;
 	margin-top:	10px;
 	margin-left:220px;
-	margin-right:160px;
+	margin-right:10px;
 	padding:	10px;
 }
 
@@ -42,4 +45,20 @@ a img {
 	height:			65px;
 	border-bottom:	1px solid #000;
 	color:	#fff;
+}
+
+.search {
+	position: relative;
+}
+
+.search form {
+	
+}
+
+.search input.submit {
+	
+}
+
+.search input.text {
+	width:80%;
 }
