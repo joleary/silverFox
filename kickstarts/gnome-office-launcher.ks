@@ -14,16 +14,16 @@ repo --name=dl_local --baseurl=file:///home/joleary/customRepo
 @graphical-internet
 @sound-and-video
 @gnome-desktop
-#@office
-#-openoffice.org-math
-#-openoffice.org-math-core
-#-openoffice.org-draw
-#-openoffice.org-draw-core
-#-openoffice.org-calc
-#-openoffice.org-calc-core
-#-openoffice.org-pdfimport
-#-openoffice.org-xsltfilter
-#-openoffice.org-graphicfilter
+@office
+-openoffice.org-math
+-openoffice.org-math-core
+-openoffice.org-draw
+-openoffice.org-draw-core
+-openoffice.org-calc
+-openoffice.org-calc-core
+-openoffice.org-pdfimport
+-openoffice.org-xsltfilter
+-openoffice.org-graphicfilter
 
 
 nss-mdns
