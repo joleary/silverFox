@@ -14,16 +14,16 @@ repo --name=dl_local --baseurl=file:///home/joleary/customRepo
 @graphical-internet
 @sound-and-video
 @gnome-desktop
-@office
--openoffice.org-math
--openoffice.org-math-core
--openoffice.org-draw
--openoffice.org-draw-core
--openoffice.org-calc
--openoffice.org-calc-core
--openoffice.org-pdfimport
--openoffice.org-xsltfilter
--openoffice.org-graphicfilter
+#@office
+#-openoffice.org-math
+#-openoffice.org-math-core
+#-openoffice.org-draw
+#-openoffice.org-draw-core
+#-openoffice.org-calc
+#-openoffice.org-calc-core
+#-openoffice.org-pdfimport
+#-openoffice.org-xsltfilter
+#-openoffice.org-graphicfilter
 
 
 nss-mdns
@@ -58,6 +58,8 @@ festvox-slt-arctic-hts
 -constantine-backgrounds-extras
 -fedora-release*
 -fedora-logos
+-fedora-icon*
+-fedora-gnome-theme
 generic-logos
 generic-release
 -cheese
@@ -122,39 +124,58 @@ gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults
 # set up timed auto-login for after 60 seconds
 cat >> /etc/gdm/custom.conf << FOE
 [daemon]
-TimedLoginEnable=true
-TimedLogin=liveuser
-TimedLoginDelay=60
+#TimedLoginEnable=true
+#TimedLogin=liveuser
+AutomaticLoginEnable=true
+AutomaticLogin-liveuser
+#TimedLoginDelay=60
 FOE
 
 # Show harddisk install on the desktop
-sed -i -e 's/NoDisplay=true/NoDisplay=false/' /usr/share/applications/liveinst.desktop
+#sed -i -e 's/NoDisplay=true/NoDisplay=false/' /usr/share/applications/liveinst.desktop
 mkdir /home/liveuser/Desktop
-cp /usr/share/applications/liveinst.desktop /home/liveuser/Desktop
-chown -R liveuser.liveuser /home/liveuser/Desktop
-chmod a+x /home/liveuser/Desktop/liveinst.desktop
+#cp /usr/share/applications/liveinst.desktop /home/liveuser/Desktop
+#chown -R liveuser.liveuser /home/liveuser/Desktop
+#chmod a+x /home/liveuser/Desktop/liveinst.desktop
 
 # But not trash and home
 gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults -s -t bool /apps/nautilus/desktop/trash_icon_visible false >/dev/null
 gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults -s -t bool /apps/nautilus/desktop/home_icon_visible false >/dev/null
 
 # expand top and bottom panels for session and by default
-gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/toplevels/top_panel/size 64 --type int >/dev/null
-gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/toplevels/bottom_panel/size 64 --type int >/dev/null
-gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/toplevels/top_panel/size 64 --type int >/dev/null
-gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/toplevels/bottom_panel/size 64 --type int >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/toplevels/top_panel/size 48 --type int >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/toplevels/bottom_panel/size 48 --type int >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/toplevels/top_panel/size 48 --type int >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/toplevels/bottom_panel/size 48 --type int >/dev/null
 
 # ctrl key to locate the mouse by default
 gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /desktop/gnome/peripherals/mouse/locate_pointer --type bool true >/dev/null
 
 # show desktop on top panel by dafult
-gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/general/applet_id_list show_desktop_button --type list --list-type string [mixer,clock,notification_area,show_desktop_button,window_list] >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/general/applet_id_list --type list --list-type string [mixer,clock,notification_area,show_desktop_button,window_list] >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/general/object_id_list --type list --list-type string [menu_bar] >/dev/null
 gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/applets/show_desktop_button/object_type bonobo-applet --type string >/dev/null
 gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/applets/show_desktop_button/toplevel_id bottom_panel --type string >/dev/null
 gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/applets/show_desktop_button/position 0 --type int >/dev/null
 gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/applets/show_desktop_button/panel_right_stick false --type bool >/dev/null
 gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/applets/show_desktop_button/locked true --type bool >/dev/null
 gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/default_setup/applets/show_desktop_button/bonobo_iid OAFIID:GNOME_ShowDesktopApplet --type string >/dev/null
+
+
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/general/applet_id_list --type list --list-type string [mixer,clock,notification_area,show_desktop_button,window_list] >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/general/object_id_list --type list --list-type string [menu_bar] >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/applets/show_desktop_button/object_type bonobo-applet --type string >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/applets/show_desktop_button/toplevel_id bottom_panel --type string >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/applets/show_desktop_button/position 0 --type int >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/applets/show_desktop_button/panel_right_stick false --type bool >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/applets/show_desktop_button/locked true --type bool >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/panel/applets/show_desktop_button/bonobo_iid OAFIID:GNOME_ShowDesktopApplet --type string >/dev/null
+
+# remove nautilus as desktop owner
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/nautilus/preferences/show_desktop false --type bool >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/nautilus/preferences/always_use_browser true --type bool >/dev/null
+gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults --set /apps/nautilus/preferences/always_use_location_entry true --type bool >/dev/null
+
 
 # Turn off PackageKit-command-not-found while uninstalled
 sed -i -e 's/^SoftwareSourceSearch=true/SoftwareSourceSearch=false/' /etc/PackageKit/CommandNotFound.conf
