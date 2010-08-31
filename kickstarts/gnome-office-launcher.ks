@@ -127,7 +127,7 @@ cat >> /etc/gdm/custom.conf << FOE
 #TimedLoginEnable=true
 #TimedLogin=liveuser
 AutomaticLoginEnable=true
-AutomaticLogin-liveuser
+AutomaticLogin=liveuser
 #TimedLoginDelay=60
 FOE
 
